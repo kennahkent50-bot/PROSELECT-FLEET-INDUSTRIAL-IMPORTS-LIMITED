@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProSelect Fleet & Industrial Imports Limited</title>
+  <style>
+    :root {
+      --primary: #0f172a;
+      --accent: #2563eb;
+      --text: #334155;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: var(--text); background: var(--bg); line-height: 1.6; }
+    
+    header { background: var(--primary); color: #fff; padding: 2.5rem 1.5rem; text-align: center; }
+    header h1 { font-size: 2rem; color: #fff; margin-bottom: 0.5rem; }
+    header p { color: #94a3b8; font-size: 1rem; max-width: 650px; margin: 0 auto; }
+    
+    .contact-bar { background: #1e293b; color: #cbd5e1; text-align: center; padding: 0.75rem 1rem; font-size: 0.9rem; }
+    .contact-bar a { color: #60a5fa; text-decoration: none; font-weight: 500; }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+    
+    /* Category Filter Buttons */
+    .filter-container { display: flex; justify-content: center; gap: 0.75rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+    .filter-btn { background: #e2e8f0; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: 600; color: var(--primary); cursor: pointer; transition: all 0.2s; }
+    .filter-btn.active, .filter-btn:hover { background: var(--accent); color: #fff; }
+
+    /* Product Grid */
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.75rem; }
+    .product-card { background: var(--card-bg); border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+    .product-img { width: 100%; height: 200px; object-fit: cover; background: #cbd5e1; }
+    .product-details { padding: 1.25rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .product-title { font-size: 1.15rem; color: var(--primary); margin-bottom: 0.5rem; }
+    .product-category { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); font-weight: 700; margin-bottom: 0.5rem; }
+    .product-desc { font-size: 0.9rem; color: #64748b; margin-bottom: 1rem; }
+    .inquire-btn { display: inline-block; text-align: center; background: var(--primary); color: #fff; text-decoration: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600; }
+    .inquire-btn:hover { background: var(--accent); }
+
+    footer { background: var(--primary); color: #94a3b8; text-align: center; padding: 2rem 1.5rem; font-size: 0.9rem; margin-top: 4rem; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>PROSELECT FLEET & INDUSTRIAL IMPORTS LIMITED</h1>
+    <p>Nairobi, Kenya | Direct Sourcing & B2B Trade Partners</p>
+  </header>
+
+  <div class="contact-bar">
+    Email: <a href="mailto:info@proselectimports.com">info@proselectimports.com</a> | 
+    Web: <a href="https://www.proselectimports.com" target="_blank">www.proselectimports.com</a>
+  </div>
+
+  <main class="container">
+    
+    <!-- Category Filter Controls -->
+    <div class="filter-container">
+      <button class="filter-btn active" onclick="filterProducts('all')">All Products</button>
+      <button class="filter-btn" onclick="filterProducts('mobility')">Electric Mobility</button>
+      <button class="filter-btn" onclick="filterProducts('solar')">Solar & Energy</button>
+      <button class="filter-btn" onclick="filterProducts('machinery')">Heavy Machinery</button>
+    </div>
+
+    <!-- Product Catalog Output -->
+    <div class="product-grid" id="productGrid"></div>
+
+  </main>
+
+  <footer>
+    <p>&copy; PROSELECT FLEET & INDUSTRIAL IMPORTS LIMITED. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // PRODUCT CATALOG DATA ARRAY
+    // Replace the image URLs with your Cloudinary image links as you upload them.
+    const products = [
+      {
+        id: "EM-01",
+        name: "Multi-Seater Resort Shuttle Buggy",
+        category: "mobility",
+        categoryLabel: "Electric Mobility",
+        description: "Lithium-powered passenger shuttle engineered for quiet, continuous operation in luxury hospitality resorts and golf clubs.",
+        image: "https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: "SE-01",
+        name: "LiFePO4 Stationary Energy Storage System (ESS)",
+        category: "solar",
+        categoryLabel: "Solar & Energy Storage",
+        description: "Industrial-grade lithium iron phosphate battery storage for commercial peak-shaving and reliable off-grid power backup.",
+        image: "https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: "HM-01",
+        name: "Heavy-Duty Construction Crane & Earthmover",
+        category: "machinery",
+        categoryLabel: "Heavy Machinery",
+        description: "Direct factory-sourced heavy construction machinery engineered specifically for East African infrastructure specifications.",
+        image: "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=600&q=80"
+      }
+    ];
+
+    function displayProducts(items) {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = items.map(p => `
+        <div class="product-card">
+          <img src="${p.image}" alt="${p.name}" class="product-img">
+          <div class="product-details">
+            <div>
+              <div class="product-category">${p.categoryLabel}</div>
+              <h3 class="product-title">${p.name}</h3>
+              <p class="product-desc">${p.description}</p>
+            </div>
+            <a href="mailto:info@proselectimports.com?subject=Inquiry for ${encodeURIComponent(p.name)}" class="inquire-btn">Request Quote / Specs</a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterProducts(category) {
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      if (category === 'all') {
+        displayProducts(products);
+      } else {
+        const filtered = products.filter(p => p.category === category);
+        displayProducts(filtered);
+      }
+    }
+
+    // Initial load
+    displayProducts(products);
+  </script>
+
+</body>
+</html>
